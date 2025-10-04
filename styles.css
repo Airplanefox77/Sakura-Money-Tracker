@@ -1,0 +1,193 @@
+/* === Sakura Money Tracker — Stunning theme & animations ===
+   - Smooth, performant transitions
+   - Glassmorphism, sakura accents
+   - Dark mode via .theme-dark on <body>
+   - Respect prefers-reduced-motion
+*/
+
+:root{
+  /* Core colors (light) */
+  --bg-1: #fff7fb;
+  --bg-2: #fff0f7;
+  --paper: #ffffff;
+  --text: #1f1720;
+  --muted: rgba(31,23,32,0.6);
+  --accent-1: #ff6fa6; /* sakura pink */
+  --accent-2: #ffd9eb; /* soft pink */
+  --accent-3: #7bb4ff; /* soft blue highlight */
+  --glass: rgba(255,255,255,0.6);
+  --glass-2: rgba(255,255,255,0.45);
+  --shadow-1: 0 10px 30px rgba(25,10,20,0.06);
+  --scroll-thumb: rgba(179,80,120,0.45);
+
+  /* sizes */
+  --max-width: 880px;
+  --page-pad: 32px;
+
+  /* animation tempo */
+  --dur-fast: 180ms;
+  --dur-medium: 360ms;
+  --dur-long: 650ms;
+  --ease: cubic-bezier(.15,.9,.25,1);
+  font-family: Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+/* Dark theme overrides */
+body.theme-dark {
+  --bg-1: linear-gradient(180deg,#061226,#081827);
+  --bg-2: #061226;
+  --paper: rgba(6,10,20,0.55);
+  --text: #eef7ff;
+  --muted: rgba(238,247,255,0.6);
+  --accent-1: #ff7aa0;
+  --accent-2: #1f6fff;
+  --accent-3: #1b2b47;
+  --glass: rgba(255,255,255,0.06);
+  --glass-2: rgba(255,255,255,0.03);
+  --shadow-1: 0 14px 40px rgba(0,0,0,0.6);
+  --scroll-thumb: rgba(255,120,160,0.14);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce){
+  :root{
+    --dur-fast: 1ms; --dur-medium: 1ms; --dur-long: 1ms;
+  }
+  * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+/* Page background */
+html,body{height:100%; margin:0; background: var(--bg-1); color:var(--text); -webkit-font-smoothing:antialiased;}
+body { display:flex; align-items:center; justify-content:center; padding:48px 20px; }
+
+/* Corner header */
+.corner-header { position:fixed; right:18px; top:18px; z-index:80; display:flex; flex-direction:column; gap:8px; }
+.icon-btn { background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7)); border:none; padding:10px; border-radius:12px; box-shadow: var(--shadow-1); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast); color:var(--text); }
+.icon-btn:active{ transform: scale(0.98); }
+.icon-btn svg{ display:block; color:var(--muted); }
+
+/* Settings panel */
+.settings-panel{ display:none; width:320px; padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85)); box-shadow: 0 18px 60px rgba(25,10,20,0.12); border:1px solid rgba(255,255,255,0.6); transform-origin:top right; }
+body.theme-dark .settings-panel{ background: linear-gradient(180deg, rgba(10,14,24,0.9), rgba(8,14,22,0.7)); border:1px solid rgba(255,255,255,0.04); }
+
+/* Layout: book / page */
+.book { width:100%; display:flex; justify-content:center; align-items:flex-start; gap:20px; }
+.page { width:100%; max-width:var(--max-width); background: linear-gradient(180deg, var(--paper), rgba(255,255,255,0.98)); border-radius:18px; padding:var(--page-pad); box-shadow: var(--shadow-1); border: 1px solid rgba(255,255,255,0.6); transition: box-shadow var(--dur-medium) var(--ease), transform var(--dur-medium) var(--ease); position:relative; overflow:hidden; }
+
+/* subtle sakura petal decorations (pseudo elements) */
+.page::before, .page::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  opacity:0.12;
+  transform-origin:center;
+}
+.page::before{ width:220px; height:220px; right:-20px; top:-30px; background-image: radial-gradient(circle at 30% 30%, var(--accent-2), transparent 35%), radial-gradient(circle at 70% 70%, var(--accent-1), transparent 40%); transform: rotate(12deg); }
+.page::after{ width:360px; height:360px; left:-80px; bottom:-80px; background-image: radial-gradient(circle at 40% 40%, var(--accent-2), transparent 30%), radial-gradient(circle at 60% 60%, var(--accent-3), transparent 40%); transform: rotate(-8deg); opacity:0.08; }
+
+/* Title */
+.title{ font-size:28px; text-align:center; margin-bottom:14px; color:var(--accent-1); letter-spacing:0.2px; text-shadow: 0 2px 12px rgba(255,110,150,0.08); }
+
+/* Form / add section */
+.ledger-add { margin-bottom:18px; }
+form{ display:flex; flex-direction:column; gap:14px; }
+
+/* Rows */
+.row{ display:flex; gap:12px; align-items:flex-end; }
+.row.split{ justify-content:space-between; }
+.field{ flex:1; display:flex; flex-direction:column; gap:8px; }
+.field.full{ flex-basis:100%; }
+
+/* Labels & inputs */
+label{ font-size:12px; color:var(--muted); }
+input[type="text"], textarea, select{
+  border-radius:12px; padding:11px 12px; background:var(--glass); border: 1px solid rgba(0,0,0,0.04); font-size:14px; color:var(--text); box-shadow: 0 6px 18px rgba(15,10,20,0.03); transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+body.theme-dark input[type="text"], body.theme-dark textarea, body.theme-dark select{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.03);
+  color:var(--text);
+}
+input[type="text"]:focus, textarea:focus, select:focus{ outline:none; transform: translateY(-2px); box-shadow:0 10px 30px rgba(120,70,120,0.06); }
+
+/* Select styling */
+.select-wrap{ position:relative; }
+.select-wrap select{ appearance:none; -webkit-appearance:none; padding-right:40px; background-image:none; }
+.dropdown-arrow{ position:absolute; right:12px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--muted); pointer-events:none; }
+
+/* Money input */
+.money-field{ max-width:290px; }
+.money-input{ display:flex; align-items:center; gap:8px; padding:10px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.9)); border:1px solid rgba(0,0,0,0.04); }
+body.theme-dark .money-input{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
+.money-prefix{ font-weight:800; color:var(--accent-1); font-size:15px; }
+.money-input input{ border:none; outline:none; background:transparent; font-size:16px; color:var(--text); width:100%; }
+
+/* Buttons */
+button.primary{ background: linear-gradient(180deg,var(--accent-1), #ff6a96); color:white; padding:10px 14px; border-radius:12px; border:none; font-weight:700; cursor:pointer; box-shadow: 0 12px 30px rgba(255,110,150,0.12); transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
+button.primary:active{ transform: translateY(1px) scale(0.995); }
+
+/* Balance card */
+.balance-area{ display:flex; justify-content:center; margin: 8px 0 18px; }
+.balance-card{ padding:14px 20px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,250,0.98)); border:1px solid rgba(200,150,180,0.06); box-shadow: 0 8px 24px rgba(200,80,120,0.06); display:flex; flex-direction:column; align-items:center; }
+body.theme-dark .balance-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); box-shadow: 0 10px 30px rgba(15,20,40,0.36); }
+.balance-label{ font-size:13px; color:var(--muted); }
+.balance-amount{ font-size:22px; font-weight:900; color:var(--accent-1); margin-top:6px; letter-spacing:0.6px; }
+
+/* Transactions list */
+.section-title{ margin-bottom:10px; font-size:15px; color:var(--muted); }
+.transactions{ max-height:420px; overflow:auto; display:flex; flex-direction:column; gap:12px; padding-right:8px; scroll-behavior:smooth; }
+
+/* custom scrollbar */
+.transactions::-webkit-scrollbar{ width:12px; }
+.transactions::-webkit-scrollbar-track{ background:transparent; }
+.transactions::-webkit-scrollbar-thumb{ background:var(--scroll-thumb); border-radius:12px; border:3px solid transparent; background-clip: padding-box; }
+
+/* Transaction item style & animation */
+.transaction{ display:flex; justify-content:space-between; gap:10px; padding:12px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,250,0.98)); border: 1px solid rgba(0,0,0,0.03); align-items:flex-start; transform-origin:center; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease); }
+body.theme-dark .transaction{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); box-shadow: 0 6px 18px rgba(5,10,20,0.35); }
+.transaction.positive{ border-left:6px solid #1fb66b; }
+.transaction.negative{ border-left:6px solid var(--accent-1); }
+
+.tx-title{ font-weight:800; color: #4a0d36; }
+body.theme-dark .tx-title{ color: #ffd9eb; }
+.tx-meta{ display:flex; gap:10px; margin-top:6px; color:var(--muted); font-size:12px; }
+.tx-type{ padding:4px 8px; border-radius:999px; background:var(--accent-2); color:#6b1b3b; font-weight:700; font-size:12px; }
+.tx-desc{ margin-top:8px; color:var(--muted); font-size:13px; white-space:pre-wrap; max-width:64ch; }
+.right{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.tx-amount{ font-weight:900; font-size:16px; color:#17212a; }
+.transaction.positive .tx-amount{ color:#127a3b; }
+.transaction.negative .tx-amount{ color:var(--accent-1); }
+.delete-btn{ background:transparent; border:none; cursor:pointer; font-size:16px; transition: transform var(--dur-fast) var(--ease); }
+.delete-btn:active{ transform: scale(0.9); }
+
+/* Add / remove animations */
+@keyframes slideInUp {
+  from { transform: translateY(14px) scale(.995); opacity:0; }
+  to   { transform: translateY(0) scale(1); opacity:1; }
+}
+.transaction.enter { animation: slideInUp var(--dur-medium) var(--ease) both; }
+.transaction.leave { animation: slideOut var(--dur-medium) var(--ease) both; }
+
+@keyframes slideOut {
+  from { opacity:1; transform: translateY(0) scale(1); }
+  to { opacity:0; transform: translateY(20px) scale(.99); height:0; margin:0; padding:0; }
+}
+
+/* Theme toggle styling */
+.theme-toggle{ display:inline-flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.9)); cursor:pointer; transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
+body.theme-dark .theme-toggle{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); color:var(--muted); }
+.theme-toggle .icon{ display:inline-flex; width:18px; height:18px; color:var(--muted); }
+.theme-toggle .icon.moon{ display:none; }
+body.theme-dark .theme-toggle .icon.moon{ display:inline-flex; }
+body.theme-dark .theme-toggle .icon.sun{ display:none; }
+
+/* small screens */
+@media (max-width:760px){
+  .page{ padding:20px; border-radius:14px; }
+  .transactions{ max-height:520px; }
+  .corner-header{ right:12px; top:12px; }
+}
+
+/* Accessibility: focus outlines */
+.icon-btn:focus, .theme-toggle:focus, button.primary:focus, .delete-btn:focus, .settings-action:focus { outline: 3px solid rgba(255,110,150,0.12); outline-offset:3px; border-radius:10px; }
