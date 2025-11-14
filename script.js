@@ -2,6 +2,9 @@
 // Keeps localStorage, export/import, and robust input formatting.
 // Author: ChatGPT for Vortex :3
 
+ const API_BASE = "sakura-money-tracker.railway.internal";
+
+
 // ---- Selectors ----
 const form = document.getElementById('transaction-form');
 const transactionsEl = document.getElementById('transactions');
@@ -301,3 +304,4 @@ if (!amountInput.value) amountInput.value = '0.00';
 
 // ---- Init UI ----
 updateUI();
+
